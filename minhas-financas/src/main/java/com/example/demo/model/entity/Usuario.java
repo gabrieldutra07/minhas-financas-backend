@@ -12,7 +12,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "usuario", schema = "financas")
 public class Usuario {
+
 	
+	public Usuario(Long id, String nome, String email, String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+	}
+	
+	public Usuario() {
+		super();
+	}
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

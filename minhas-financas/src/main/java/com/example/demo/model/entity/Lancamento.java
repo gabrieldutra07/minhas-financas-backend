@@ -18,10 +18,32 @@ import javax.persistence.Table;
 
 import org.springframework.data.convert.Jsr310Converters;
 
+import com.example.demo.model.enums.StatusLancamento;
+import com.example.demo.model.enums.TipoLancamento;
+
 @Entity
 @Table(name = "lancamento", schema = "financas")
 public class Lancamento {
 	
+	
+	public Lancamento() {
+		super();
+	}
+
+	public Lancamento(Long id, String descricao, Integer mes, Integer ano, Usuario usuario, BigDecimal valor,
+			LocalDate dataCadastro, TipoLancamento tipo, StatusLancamento status) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.mes = mes;
+		this.ano = ano;
+		this.usuario = usuario;
+		this.valor = valor;
+		this.dataCadastro = dataCadastro;
+		this.tipo = tipo;
+		this.status = status;
+	}
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
