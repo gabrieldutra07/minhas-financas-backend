@@ -31,7 +31,6 @@ public class UsuarioRepositoryTest {
 		
 		Assertions.assertThat(result).isTrue();
 	
-		
 	}
 
 }
