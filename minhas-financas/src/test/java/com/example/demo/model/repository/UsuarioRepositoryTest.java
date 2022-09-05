@@ -19,17 +19,14 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void deveVerificarAExistenciaDeUmEmail() {
 		
-		Usuario u = new Usuario();
+		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
 		
-		u.setEmail("usuario@email.com");
-		u.setSenha("gabriel");
-		u.setNome("gabriel");
-		
-		repository.save(u);
+		repository.save(usuario);
 		
 		boolean result = repository.existsByEmail("usuario@email.com");
 		
 		Assertions.assertThat(result).isTrue();
+		
 	
 	}
 
