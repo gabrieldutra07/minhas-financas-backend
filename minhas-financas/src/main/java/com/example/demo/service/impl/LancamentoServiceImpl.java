@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.RegraNegocioException;
 import com.example.demo.model.entity.Lancamento;
 import com.example.demo.model.enums.StatusLancamento;
 import com.example.demo.model.repository.LancamentoRepository;
@@ -27,7 +29,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 	@Override
 	@Transactional
 	public Lancamento salvar(Lancamento lancamento) {
-		
+		validar(lancamento);
 		return repository.save(lancamento);
 	}
 
@@ -35,6 +37,8 @@ public class LancamentoServiceImpl implements LancamentoService{
 	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
 		Objects.requireNonNull(lancamento.getId());
+		validar(lancamento);
+		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repository.save(lancamento);
 	}
 
@@ -60,7 +64,37 @@ public class LancamentoServiceImpl implements LancamentoService{
 
 	@Override
 	public void atualizarStatus(Lancamento lancamento, StatusLancamento status) {
-		// TODO Auto-generated method stub
+		lancamento.setStatus(status);
+		atualizar(lancamento);
+		
+	}
+
+	@Override
+	public void validar(Lancamento lancamento) {
+		
+		if(lancamento.getDescricao() == null || lancamento.getDescricao().trim().equals("")) {
+			throw new RegraNegocioException("Insira uma descrição válida!");
+		}
+		
+		if(lancamento.getMes() == null || lancamento.getMes() < 1 || lancamento.getMes() > 12) {
+			throw new RegraNegocioException("Informe um mês válido!");
+		}
+		
+		if(lancamento.getAno() == null || lancamento.getAno().toString().length() != 4) {
+			throw new RegraNegocioException("Insira um ano válido!");
+		}
+		
+		if(lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null) {
+			throw new RegraNegocioException("Informe um usuário!");
+		}
+		
+		if(lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1) {
+			throw new RegraNegocioException("Insira um valor válido!");
+		}
+		
+		if(lancamento.getTipo() == null) {
+			throw new RegraNegocioException("Insira um tipo de lançamento!");
+		}
 		
 	}
 
