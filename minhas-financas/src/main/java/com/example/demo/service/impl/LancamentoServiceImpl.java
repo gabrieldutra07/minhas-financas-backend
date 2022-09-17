@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -28,14 +29,17 @@ public class LancamentoServiceImpl implements LancamentoService{
 	}
 
 	@Override
+	@Transactional
 	public Lancamento atualizar(Lancamento lancamento) {
-		// TODO Auto-generated method stub
-		return null;
+		Objects.requireNonNull(lancamento.getId());
+		return repository.save(lancamento);
 	}
 
 	@Override
+	@Transactional
 	public void deletar(Lancamento lancamento) {
-		// TODO Auto-generated method stub
+		Objects.requireNonNull(lancamento.getId());
+		repository.delete(lancamento);
 		
 	}
 
