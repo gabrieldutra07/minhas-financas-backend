@@ -25,17 +25,15 @@ import com.example.demo.model.enums.TipoLancamento;
 import com.example.demo.service.LancamentoService;
 import com.example.demo.service.UsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/lancamentos")
+@RequiredArgsConstructor
 public class LancamentoController {
 
-	private LancamentoService service;
-	private UsuarioService usuarioService;
-	
-	public LancamentoController(LancamentoService service, UsuarioService usuarioService) {
-		this.service = service;
-		this.usuarioService = usuarioService;
-	}
+	private final LancamentoService service;
+	private final UsuarioService usuarioService;
 	
 	@PostMapping
 	public ResponseEntity salvar(@RequestBody LancamentoDTO dto) {
@@ -85,8 +83,14 @@ public class LancamentoController {
 		.orElseThrow( () -> new RegraNegocioException("Usuário não encontrado para o ID informado!"));
 		
 		lancamento.setUsuario(usuario);
-		lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
-		lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+		
+		if(dto.getTipo() != null) {
+			lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
+		}
+		
+		if(dto.getStatus() != null) {
+			lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+		}
 		
 		return lancamento;
 	}
