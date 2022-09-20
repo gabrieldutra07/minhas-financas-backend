@@ -17,4 +17,5 @@ public interface LancamentoService {
 	void validar(Lancamento lancamento);
 	Optional<Lancamento> obterPorId(Long id);
 	BigDecimal obterSaldoPorUsuario(Long id);
+	List<Lancamento> buscarTodos();
 }

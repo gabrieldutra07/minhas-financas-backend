@@ -138,4 +138,10 @@ public class LancamentoController {
 		
 	}
 	
+	
+	@GetMapping("/buscar-todos-lancamentos")
+	public ResponseEntity buscarLancamentos() {
+		return ResponseEntity.ok(service.buscarTodos());
+	}
+	
 }

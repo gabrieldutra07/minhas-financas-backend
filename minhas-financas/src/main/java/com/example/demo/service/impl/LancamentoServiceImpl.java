@@ -35,6 +35,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 		lancamento.setStatus(StatusLancamento.PENDENTE);
 		return repository.save(lancamento);
 	}
+	
 
 	@Override
 	@Transactional
@@ -99,6 +100,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 		}
 		
 	}
+	
 
 	@Override
 	public Optional<Lancamento> obterPorId(Long id) {
@@ -120,6 +122,11 @@ public class LancamentoServiceImpl implements LancamentoService{
 		}
 		
 		return receitas.subtract(despesas);
+	}
+
+	@Override
+	public List<Lancamento> buscarTodos() {
+		return repository.findAll();
 	}
 
 }
