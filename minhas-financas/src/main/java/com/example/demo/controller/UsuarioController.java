@@ -70,5 +70,10 @@ public class UsuarioController {
 		BigDecimal saldo = lancamentoService.obterSaldoPorUsuario(id);
 		return ResponseEntity.ok(saldo);
 	}
+	
+	@GetMapping("/buscar-todos-usuarios")
+	public ResponseEntity buscarTodos() {
+		return ResponseEntity.ok(service.buscarTodos());
+	}
 
 }

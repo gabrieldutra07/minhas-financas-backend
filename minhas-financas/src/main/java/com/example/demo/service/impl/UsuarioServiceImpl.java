@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -60,6 +61,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Optional<Usuario> obterPorId(Long id) {
 		return repository.findById(id);
+	}
+
+	@Override
+	public List<Usuario> buscarTodos() {
+		return repository.findAll();
 	}
 	
 }
