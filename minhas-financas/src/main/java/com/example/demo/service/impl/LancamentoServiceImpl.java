@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.exception.RegraNegocioException;
 import com.example.demo.model.entity.Lancamento;
 import com.example.demo.model.enums.StatusLancamento;
+import com.example.demo.model.enums.TipoLancamento;
 import com.example.demo.model.repository.LancamentoRepository;
 import com.example.demo.service.LancamentoService;
 
@@ -102,6 +103,23 @@ public class LancamentoServiceImpl implements LancamentoService{
 	@Override
 	public Optional<Lancamento> obterPorId(Long id) {
 		return repository.findById(id);
+	}
+
+	@Override
+	@Transactional
+	public BigDecimal obterSaldoPorUsuario(Long id) {
+		BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA.name());
+		BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA.name());
+		
+		if(receitas == null) {
+			receitas = BigDecimal.ZERO;
+		}
+		
+		if(despesas == null) {
+			despesas = BigDecimal.ZERO;
+		}
+		
+		return receitas.subtract(despesas);
 	}
 
 }
