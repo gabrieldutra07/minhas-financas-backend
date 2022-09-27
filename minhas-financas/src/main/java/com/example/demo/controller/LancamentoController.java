@@ -123,7 +123,7 @@ public class LancamentoController {
 			) {
 		Lancamento lancamentoFiltro = new Lancamento();
 		lancamentoFiltro.setDescricao(descricao);
-		lancamentoFiltro.setMes(ano);
+		lancamentoFiltro.setMes(mes);
 		lancamentoFiltro.setAno(ano);
 		
 		Optional<Usuario> usuario = usuarioService.obterPorId(idUsuario);
