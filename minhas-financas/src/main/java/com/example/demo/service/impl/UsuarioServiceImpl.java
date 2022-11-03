@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.ErroAutenticacao;
@@ -18,11 +19,13 @@ import com.example.demo.service.UsuarioService;
 public class UsuarioServiceImpl implements UsuarioService {
 	
 	private UsuarioRepository repository;
+	private PasswordEncoder encoder;
 
 	@Autowired
-	public UsuarioServiceImpl(UsuarioRepository repository) {
+	public UsuarioServiceImpl(UsuarioRepository repository, PasswordEncoder encoder) {
 		super();
 		this.repository = repository;
+		this.encoder = encoder;
 	}
 
 	@Override
