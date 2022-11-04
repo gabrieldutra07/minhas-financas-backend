@@ -36,7 +36,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new ErroAutenticacao("Usuário não encontrado!");
 		}
 		
-		if(!usuario.get().getSenha().equals(senha)) {
+		boolean senhasBatem = encoder.matches(senha, usuario.get().getSenha());
+		
+		if(!senhasBatem) {
 			throw new ErroAutenticacao("Senha inválida!");
 		}
 			
@@ -47,7 +49,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional
 	public Usuario salvarUsuario(Usuario usuario) {
 		validarEmail(usuario.getEmail());
+		criptografarSenha(usuario);
 		return repository.save(usuario);
+	}
+
+	private void criptografarSenha(Usuario usuario) {
+		String senha = usuario.getSenha();
+		String senhaCripto = encoder.encode(senha);
+		usuario.setSenha(senhaCripto);
 	}
 
 	@Override
