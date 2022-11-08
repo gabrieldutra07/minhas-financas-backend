@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.TokenDTO;
 import com.example.demo.dto.UsuarioDTO;
 import com.example.demo.exception.ErroAutenticacao;
-import com.example.demo.model.entity.Lancamento;
 import com.example.demo.model.entity.Usuario;
+import com.example.demo.service.JwtService;
 import com.example.demo.service.LancamentoService;
 import com.example.demo.service.UsuarioService;
 
@@ -28,13 +29,16 @@ public class UsuarioController {
 	
 	private final UsuarioService service;
 	private final LancamentoService lancamentoService;
+	private final JwtService jwtService;
 	
 	@PostMapping("/autenticar")
-	public ResponseEntity autenticar(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<?> autenticar(@RequestBody UsuarioDTO dto) {
 		
 		try {
 			Usuario usuarioAutenticado = service.autenticar(dto.getEmail(), dto.getSenha());
-			return ResponseEntity.ok(usuarioAutenticado);
+			TokenDTO token = new TokenDTO(usuarioAutenticado.getNome(), jwtService.gerarToken(usuarioAutenticado));
+			
+			return ResponseEntity.ok(token);
 		} catch (ErroAutenticacao e){
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
